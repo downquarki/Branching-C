@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <string.h>
+//Declaration of functions
+int GetHoursAndMinutes(char minorhr[], char numperson[]);
+int min(int val1, int val2, int val3);
+int mid(int val1, int val2, int val3);
+int max(int val1, int val2, int val3);
+int mindtm(int p1minutes, int p2minutes, int p3minutes, int p1hours, int p2hours, int p3hours);
+int middtm(int res, int p1minutes, int p2minutes, int p3minutes, int p1hours, int p2hours, int p3hours);
+int maxdtm(int resmin, int resmid, int p1minutes, int p2minutes, int p3minutes, int p1hours, int p2hours, int p3hours);
+
+
+
+
+int main(void)
+{
+	int p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes;
+	printf("Ukoliko su se srele, program ce istampati \"Sreli su se\", a u suprotnom \"Nisu se sreli.\"\n");
+	p1hours = GetHoursAndMinutes("hours", "prve");
+	p1minutes = GetHoursAndMinutes("minutes", "prve");
+	p2hours = GetHoursAndMinutes("hours", "druge");
+	p2minutes = GetHoursAndMinutes("minutes", "druge");
+	p3hours = GetHoursAndMinutes("hours", "trece");
+	p3minutes = GetHoursAndMinutes("minutes", "trece");
+	if ((p1hours == p2hours) && (p1hours == p3hours))
+	{
+		int minm = min(p1minutes, p2minutes, p3minutes);
+		int midm = mid(p1minutes, p2minutes, p3minutes);
+		int maxm = max(p1minutes, p2minutes, p3minutes);
+
+		if ((minm + 10 >= midm) && (midm + 5 >= maxm)) printf("Sreli su se.\n");
+	}
+	else
+	{
+		int minhr = min(p1hours, p2hours, p3hours);
+		int midhr = mid(p1hours, p2hours, p3hours);
+		int maxhr = max(p1hours, p2hours, p3hours);
+		if (minhr + 1 < maxhr) printf("Nisu se sreli. \n");
+		else
+		{
+			int mindt = mindtm(p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes);
+			int middt = middtm(mindt,p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes);
+			int maxdt = maxdtm(mindt,middt,p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes);
+			if ((minhr == midhr) && ((mindt + 10 >= middt) && (middt - 55 >= maxdt))) printf("Sreli su se.\n");
+			else if ((minhr != midhr) && (mindt - 50 >= middt) && (middt + 5 >= maxdt)) printf("Sreli su se.\n");
+			else printf("Nisu se sreli.");
+		}
+	}
+
+}
+int GetHoursAndMinutes(char minorhr[], char numperson[])
+{
+	if (strcmp(minorhr, "hours") == 0)
+	{
+		int phours;
+		do
+		{
+			printf("Unesite vreme dolaska %s osobe: \nSati:\n", numperson);
+			scanf_s("%i", &phours);
+		} while (phours > 23 || phours < 0);
+		return phours;
+	}
+
+	else
+	{
+		int pminutes;
+		do
+		{
+			printf("Minuti: \n");
+			scanf_s("%i", &pminutes);
+		} while (pminutes > 59 || pminutes < 0);
+		return pminutes;
+
+	}
+}
+
+int min(int val1, int val2, int val3)
+{
+	if (val1 < val2 && val1 < val3) return val1;
+	else if (val2 < val3) return val2;
+	else return val3;
+}
+int mid(int val1, int val2, int val3)
+{
+	if (val1 <= val2 && val2 <= val3) return val2;
+	else if (val2 <= val1 && val1 <= val3) return val1;
+	else return val3;
+}
+int max(int val1, int val2, int val3)
+{
+	if (val1 > val2 && val1 > val3) return val1;
+	else if (val2 > val3) return val2;
+	else return val3;
+}
+int mindtm(int p1hours, int p2hours, int p3hours, int p1minutes, int p2minutes, int p3minutes)
+{
+	if (p1hours < p2hours && p1hours < p3hours) return p1minutes;
+	else if (p2hours < p1hours && p2hours < p3hours) return p2minutes;
+	else if (p3hours < p1hours && p3hours < p2hours) return p3minutes;
+	else if ((p1hours == p2hours) && (p1minutes > p2minutes)) return p2minutes; 
+	else if (p1hours == p2hours) return p1minutes; 
+	else if ((p1hours == p3hours) && (p1minutes > p3minutes)) return p3minutes; 
+	else if (p1hours == p3hours) return p1minutes; 
+	else if ((p2hours == p3hours) && (p2minutes > p3minutes)) return p3minutes; 
+	else return p2minutes;
+}
+int middtm(int res, int p1hours, int p2hours, int p3hours, int p1minutes, int p2minutes, int p3minutes)
+{
+	if (p1hours < p2hours && p1hours < p3hours) if (p3hours < p2hours) return p3minutes; else return p2minutes;
+	else if (p2hours < p1hours && p2hours < p3hours) if (p1hours < p3hours) return p1minutes; else return p3minutes;
+	else if (p3hours < p2hours && p3hours < p1hours) if (p2hours < p1hours) return p2minutes; else return p1minutes;
+	else if ((p1hours == p2hours) && (p1minutes > p2minutes)) return p1minutes;
+	else if (p1hours == p2hours) return p2minutes;
+	else if ((p1hours == p3hours) && (p1minutes > p3minutes)) return p1minutes;
+	else if (p1hours == p3hours) return p3minutes;
+	else if ((p2hours == p3hours) && (p2minutes > p3minutes)) return p2minutes;
+	else return p3minutes;
+}
+int maxdtm(int resmin, int resmid, int p1hours, int p2hours, int p3hours, int p1minutes, int p2minutes, int p3minutes)
+{
+	if (p1hours < p2hours && p1hours < p3hours) if (p3hours > p2hours) return p3minutes; else return p2minutes;
+	else if (p2hours < p1hours && p2hours < p3hours) if (p1hours > p3hours) return p1minutes; else return p3minutes;
+	else if (p3hours < p2hours && p3hours < p1hours) if (p2hours > p1hours) return p2minutes; else return p1minutes;
+	int mindt = mindtm(p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes);
+	int middt = middtm(mindt, p1hours, p2hours, p3hours, p1minutes, p2minutes, p3minutes);
+	if ((middt != p1minutes) && (mindt != p1minutes)) return p1minutes;
+	else if ((middt != p2minutes) && mindt != p2minutes) return p2minutes;
+	else return p3minutes;
+	
+}
