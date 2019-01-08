@@ -16,7 +16,7 @@ int main (void)
     /*ovaj loop se moze zameniti sa 
     
     int number = 0;
-    if (number < 1000 & number > 9999)
+    if (number < 1000 || number > 9999)
     {
         scanf("%i",&number);
     }
