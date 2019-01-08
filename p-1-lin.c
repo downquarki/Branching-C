@@ -16,8 +16,10 @@ int main (void)
     /*ovaj loop se moze zameniti sa 
     
     int number = 0;
+    
     if (number < 1000 || number > 9999)
     {
+        printf("Unesite cetvorocifreni broj: \n");
         scanf("%i",&number);
     }
 
