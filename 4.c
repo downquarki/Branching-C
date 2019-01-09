@@ -2,7 +2,7 @@
 int main ()
 {
 	int a,b,c,res;
-	printf("Unesite 3 broja: \n");
+	printf("Insert 3 numbers: \n");
 	scanf("%d%d%d",&a,&b,&c);
 	if(a<b&&a<c) res=a;
 	else if (b<c) res=b;
