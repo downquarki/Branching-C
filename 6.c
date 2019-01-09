@@ -4,7 +4,7 @@
 int main ()
 {
 	int a,b;
-	printf("Unesite dva broja: \n");
+	printf("Insert 2 numbers: \n");
 	scanf("%i%i%",&a,&b);
 	int rabs1 = fabs(b-a);
 
